@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Favourite;
+use App\Http\Requests\FavouriteRequest;
 use Illuminate\Http\Request;
 
 class FavouriteController extends Controller
@@ -30,12 +31,20 @@ class FavouriteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  FavouriteRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FavouriteRequest $request)
     {
-        //
+        $favourite = Favourite::create([
+            'image_id' => $request->image_id,
+            'user_id' => $request->user_id,
+        ]);
+
+        return response()->json([
+            'status' => (bool) $favourite,
+            'message' => $favourite ? 'Successfully added to favourites!' : 'Error while adding to favourites'
+        ]);
     }
 
     /**
