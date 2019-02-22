@@ -6,7 +6,7 @@
                     <div class="card-header">Register</div>
 
                     <div class="card-body">
-                        <form method="POST" @submit.prevent="submit">
+                        <form method="POST" @submit.prevent="handleSubmit">
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
@@ -24,6 +24,7 @@
                                     <input id="email" type="email" class="form-control" v-model.trim="$v.email.$model" required>
                                     <div class="error" v-if="!$v.email.required">Email is required</div>
                                     <div class="error" v-if="!$v.email.email">Please provide valid email</div>
+                                    <div class="error" v-if="!$v.email.isUnique">This email is already registered.</div>
                                 </div>
                             </div>
 
@@ -50,7 +51,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" @click="handleSubmit">
+                                    <button type="submit" class="btn btn-primary">
                                         Register
                                     </button>
                                 </div>
@@ -93,9 +94,21 @@
                 required,
                 email,
                 async isUnique (value) {
-                    if (value === '') return true;
-                    const response = await fetch(`/api/user/${value}`)
-                    return Boolean(await response.json())
+                    if (value === '') {
+                        return true;
+                    }
+
+                    return new Promise((resolve, reject) => {
+                        axios.post(`/api/user/unique`, {
+                            email: `${value}`,
+                        })
+                        .then(response => {
+                            resolve(true);
+                        })
+                        .catch(error => {
+                            reject(false);
+                        });
+                    })
                 }
             },
         },
@@ -115,7 +128,7 @@
                         localStorage.setItem('jwt',response.data.success.token)
 
                         if (localStorage.getItem('jwt') != null){
-                            this.$router.go('/board')
+                            this.$router.go('/listimages')
                         }
                     })
                     .catch(error => {
@@ -130,7 +143,7 @@
         },
         beforeRouteEnter (to, from, next) {
             if (localStorage.getItem('jwt')) {
-                return next('board');
+                return next('listimages');
             }
 
             next();

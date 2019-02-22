@@ -40,8 +40,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function favourites(){
+//// results in a "problem", se examples below
+//    public function available_videos() {
+//        return $this->videos()->where('available','=', 1);
+//    }
+    public function favourites()
+    {
         return $this->hasMany(Favourite::class);
     }
 }

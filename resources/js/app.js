@@ -16,11 +16,19 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Pagination from './components/Pagination';
 import ListImages from './components/ListImages';
+import ListItems from './components/ListItems';
+import Favourite from './components/Favorite';
 import Vuelidate from 'vuelidate';
+import VueSilentbox from 'vue-silentbox'
 
+
+Vue.use(VueSilentbox);
 Vue.use(Vuelidate);
 Vue.use(VueRouter);
 
+Vue.component('Favourite', Favourite);
+Vue.component('Pagination', Pagination);
+Vue.component('ListItems', ListItems);
 
 const router = new VueRouter({
     mode: 'history',
@@ -41,8 +49,8 @@ const router = new VueRouter({
             component: Register,
         },
         {
-            path: '/board',
-            name: 'board',
+            path: '/listimages',
+            name: 'listimages',
             component: ListImages,
         },
     ],
@@ -50,6 +58,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: { App, Pagination },
+    components: { App },
     router,
 });

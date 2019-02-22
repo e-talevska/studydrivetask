@@ -24,7 +24,10 @@
         "vue-template-compiler": "^2.6.6"
     },
     "dependencies": {
+        "font-awesome": "^4.7.0",
+        "vue-loading-spinner": "^1.0.11",
         "vue-router": "^3.0.2",
+        "vue-silentbox": "^0.1.2",
         "vuelidate": "^0.7.4"
     }
 }

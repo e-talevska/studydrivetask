@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class FavouriteRequest extends APIFormRequest
+class UserCreateRequest extends APIFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class FavouriteRequest extends APIFormRequest
     public function rules()
     {
         return [
-//            'user_id' => 'required|integer',
-            'image_id' => 'required|integer',
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
         ];
     }
 }

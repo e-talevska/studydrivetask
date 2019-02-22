@@ -1,13 +1,13 @@
 <template>
-    <nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
-        <a class="pagination-previous" @click.prevent="changePage(1)" :disabled="pagination.current_page <= 1">First page</a>
-        <a class="pagination-previous" @click.prevent="changePage(pagination.current_page - 1)" :disabled="pagination.current_page <= 1">Previous</a>
-        <a class="pagination-next" @click.prevent="changePage(pagination.current_page + 1)" :disabled="pagination.current_page >= pagination.last_page">Next page</a>
-        <a class="pagination-next" @click.prevent="changePage(pagination.last_page)" :disabled="pagination.current_page >= pagination.last_page">Last page</a>
-        <ul class="pagination-list">
-            <li v-for="page in pages">
-                <a class="pagination-link" :class="isCurrentPage(page) ? 'is-current' : ''" @click.prevent="changePage(page)">{{ page }}</a>
+    <nav role="navigation" aria-label="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{'disabled' : pagination.current_page <= 1}"><a href="#" class="page-link pagination-previous" @click.prevent="changePage(1)" :disabled="pagination.current_page <= 1">First page</a></li>
+            <li class="page-item" :class="{'disabled' : pagination.current_page <= 1}"><a href="#" class="page-link pagination-previous" @click.prevent="changePage(pagination.current_page - 1)" :disabled="pagination.current_page <= 1">Previous</a></li>
+            <li class="page-item" v-for="page in pages" :class="isCurrentPage(page) ? 'active' : ''">
+                <a href="#" class="page-link pagination-link" @click.prevent="changePage(page)">{{ page }}</a>
             </li>
+            <li class="page-item" :class="{'disabled' : pagination.current_page >= pagination.last_page}"><a href="#" class="page-link pagination-next" @click.prevent="changePage(pagination.current_page + 1)" :disabled="pagination.current_page >= pagination.last_page">Next page</a></li>
+            <li class="page-item" :class="{'disabled' : pagination.current_page >= pagination.last_page}"><a href="#" class="page-link pagination-next" @click.prevent="changePage(pagination.last_page)" :disabled="pagination.current_page >= pagination.last_page">Last page</a></li>
         </ul>
     </nav>
 </template>
@@ -51,6 +51,14 @@
 
                 if (to > this.pagination.last_page) {
                     to = this.pagination.last_page;
+
+                    while (to - from <= this.offset) {
+                        if (from > 1) {
+                            from--;
+                        } else {
+                            break;
+                        }
+                    }
                 }
 
                 while (from <= to) {

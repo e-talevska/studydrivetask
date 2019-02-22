@@ -9,6 +9,7 @@
         <title>Studydrive Task</title>
 
         <link href=" {{ mix('css/app.css') }}" rel="stylesheet">
+        <link href="https://unpkg.com/nprogress@0.2.0/nprogress.css" rel="stylesheet" />
     </head>
     <body>
         <div id="app">
